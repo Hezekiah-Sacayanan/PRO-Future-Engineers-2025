@@ -1,26 +1,65 @@
-Engineering materials
-====
+# Engineering Materials
 
-This repository contains engineering materials of a self-driven vehicle's model participating in the WRO Future Engineers competition in the season 2022.
+This repository contains engineering materials for a **self-driving vehicle prototype** designed for the **PRO Future Engineers competition – 2025**.
+
+---
 
 ## Content
 
-* `t-photos` contains 2 photos of the team (an official one and one funny photo with all team members)
-* `v-photos` contains 6 photos of the vehicle (from every side, from top and bottom)
-* `video` contains the video.md file with the link to a video where driving demonstration exists
-* `schemes` contains one or several schematic diagrams in form of JPEG, PNG or PDF of the electromechanical components illustrating all the elements (electronic components and motors) used in the vehicle and how they connect to each other.
-* `src` contains code of control software for all components which were programmed to participate in the competition
-* `models` is for the files for models used by 3D printers, laser cutting machines and CNC machines to produce the vehicle elements. If there is nothing to add to this location, the directory can be removed.
-* `other` is for other files which can be used to understand how to prepare the vehicle for the competition. It may include documentation how to connect to a SBC/SBM and upload files there, datasets, hardware specifications, communication protocols descriptions etc. If there is nothing to add to this location, the directory can be removed.
+- **`t-photos/`** – Two team photos: one official and one fun photo featuring all team members  
+- **`v-photos/`** – Six vehicle photos showing all angles (front, back, left, right, top, bottom)  
+- **`video/`** – A `video.md` file containing a link to the demonstration video of the vehicle in action  
+- **`schemes/`** – Schematic diagrams (JPEG, PNG, or PDF) of the electromechanical system, showing all key components (sensors, motors, controllers) and their connections  
+- **`src/`** – Source code of the control software used in the vehicle, including modules for sensors, decision-making, and motor control  
+- **`models/`** – CAD or fabrication files (e.g. STL, DXF) used for 3D printing, laser cutting, or CNC machining of mechanical parts *(remove if unused)*  
+- **`other/`** – Supplementary documentation: SBC/SBM connection guides, datasets, hardware specs, or communication protocols *(remove if unused)*
+
+---
 
 ## Introduction
 
-_This part must be filled by participants with the technical clarifications about the code: which modules the code consists of, how they are related to the electromechanical components of the vehicle, and what is the process to build/compile/upload the code to the vehicle’s controllers._
+This repository documents the **engineering, programming, and assembly** of a self-driving robot built for the WRO Future Engineers 2022 challenge.
 
-## How to prepare the repo based on the template
+### Code Architecture
 
-_Remove this section before the first commit to the repository_
+The main control system is modular and consists of:
 
-1. Clone this repo by using the `git clone` functionality.
-2. Remove `.git` directory
-3. [Initialize a new public repository on GitHub](https://github.com/new) by following instructions from "create a new repository on the command line" section (appeared after pressing "Create repository" button).
+- **Sensor Modules:**
+  - **IR Sensors (x2):** Detect diagonal blue/orange lines for directional turns
+  - **Proximity Sensor:** Measures distance from nearby obstacles and traffic blocks
+  - **RPi Camera Module:** Detects traffic block colors (green/red for direction, magenta for parking)
+  - **IMU Sensor:** Tracks yaw orientation to detect laps and assist in parking alignment
+
+- **Actuator Modules:**
+  - **DC Motor (via Gizduino Motor Shield):** Controls forward/reverse motion with speed via `PWM` and direction via `DIR`
+  - **Servo Motor:** Controls steering (left/right/center) based on sensor values
+
+### Logic Flow
+
+The vehicle uses a rule-based logic system that reacts in real-time to environmental inputs:
+1. **IR sensor triggers** determine whether to turn left or right based on line detection
+2. **Traffic block color** is identified by the RPi Camera
+3. **Proximity sensor** signals when to begin turning around a block
+4. **IMU sensor yaw** is used to detect lap completion
+5. **Parallel parking** is triggered after 3 laps and detection of a magenta block
+
+---
+
+## Build & Upload Process
+
+- Code is written in Arduino C++ and found in the `src/` directory
+- The robot uses a **Gizduino Motor Shield** to control the DC motor:
+  - `DIR` pin for direction (HIGH = forward, LOW = reverse)
+  - `PWM` pin for speed (0–255)
+- Servo control is handled via a dedicated PWM pin (e.g. D10)
+- Upload code using the **Arduino IDE** to a **Gizduino-compatible board**
+- The Raspberry Pi Camera operates independently and communicates detection results to the Arduino (via Serial or GPIO)
+
+---
+
+## Team Notes
+
+This project was built collaboratively by a high school team to explore embedded systems, sensor fusion, and autonomous robotics. It represents a hands-on application of electronics, coding, and teamwork to solve real-world engineering challenges under competition constraints.
+
+---
+
