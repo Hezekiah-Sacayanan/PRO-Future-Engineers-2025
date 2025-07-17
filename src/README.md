@@ -1,6 +1,19 @@
-Control software
-====
+# Source Code
 
-This directory must contain code for control software which is used by the vehicle to participate in the competition and which was developed by the participants.
+This folder contains all Arduino source code for the robot’s behavior and control logic.
 
-All artifacts required to resolve dependencies and build the project must be included in this directory as well.
+## Structure
+
+- `main.ino` – Entry point of the program, contains the main control loop
+- `functions.ino` – Support functions such as movement, turning, sensor handling
+- `setup.ino` – Initialization of pins, motors, sensors, and camera communication
+- `constants.h` – Pin assignments, motor speeds, and threshold values
+
+## Hardware Interfaces
+
+- **IR sensors** – Line following and directional turns
+- **Proximity sensor** – Traffic block detection and parking triggers
+- **Servo motor** – Steering control
+- **DC motor (via Gizduino motor shield)** – Forward/reverse motion
+- **RPi camera** – Color detection for traffic blocks and parking zones
+- **IMU sensor** – Lap detection via yaw tracking
