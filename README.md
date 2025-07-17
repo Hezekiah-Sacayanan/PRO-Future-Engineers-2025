@@ -98,7 +98,7 @@ The vehicle operates using a rule-based system structured around sensor input an
 
 ## Team Notes
 
-This robot was developed by a group of high school students passionate about robotics, mechatronics, and computer engineering. Through this project, the team gained experience in modular design, sensor fusion, motor control, and embedded programming. Every challenge — from designing steering mechanics to refining lap detection — helped us grow as engineers and teammates.
+This robot was developed by a group of high school students passionate about robotics, mechatronics, and computer engineering. Through this project, the team gained experience in modular design, sensor fusion, motor control, and embedded programming. Every challenge, from designing steering mechanics to refining lap detection, helped us grow as engineers and teammates.
 
 We hope that this repository serves not only as documentation for the competition, but also as a useful reference for other teams and students interested in building autonomous vehicles using affordable and accessible tools like Arduino, Gizduino, and Raspberry Pi.
 
