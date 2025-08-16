@@ -4,10 +4,9 @@ This folder contains all Arduino source code for the robot’s behavior and cont
 
 ## Structure
 
-- `main.ino` – Entry point of the program, contains the main control loop
-- `functions.ino` – Support functions such as movement, turning, sensor handling
-- `setup.ino` – Initialization of pins, motors, sensors, and camera communication
-- `constants.h` – Pin assignments, motor speeds, and threshold values
+- `main.ino` – Main program for robot navigation, obstacle avoidance, and parking logic.
+- `button.py` – RaspberryPi program for activating the colorsensing program.
+- `color.py` – Main RaspBerryPi program for the color detection of traffic blocks.
 
 ## Hardware Interfaces
 
