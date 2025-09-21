@@ -38,13 +38,11 @@ The code is designed around modular blocks that handle specific hardware compone
 
 ### Sensor Modules
 
-- **IR Sensors (x2)**: Mounted underneath the vehicle to detect changes in surface color, specifically, transitions between diagonal blue and orange lines. The order of line detection allows the robot to infer direction (clockwise or counterclockwise).
+- **Color Sensor**: Mounted underneath the vehicle to detect changes in surface color, specifically, transitions between diagonal blue and orange lines. The detection of these lines allows the robot to count how many corners it has passed, thus counting how many laps it has done.
   
 - **Proximity Sensor**: Used to measure the distance between the robot and nearby traffic blocks. This helps determine when to initiate turns and avoid collisions with obstacles.
 
 - **Raspberry Pi Camera Module**: Positioned front-facing and programmed to detect the color of traffic blocks. Green blocks signal left turns, red blocks signal right turns, and magenta blocks mark the parking zone.
-
-- **IMU Sensor**: The inertial measurement unit tracks changes in the robot’s yaw (rotational angle). This data is used to estimate when a full lap has been completed based on the orientation returning to its initial state.
 
 ### Actuator Modules
 
@@ -60,24 +58,21 @@ The vehicle operates using a rule-based system structured around sensor input an
 
 1. **Startup**: The robot initializes all sensors and motors, sets yaw reference from IMU, and waits for the official start command.
 
-2. **Line Detection and Direction Control**: As it begins moving forward, two IR sensors monitor the arena surface. When one sensor detects a color change before the other, the robot interprets this as a directional cue (turn left or right accordingly).
+2. **Line Detection and Lap Counting**: As it begins moving forward, the color sensor monitors the arena surface. As the sensor detects a color change, the value of the robot's line counter increases by 1. Once the line counter has reached a certain value, the robot counts that run as a whole lap.
 
 3. **Color Recognition and Turning**: The Raspberry Pi camera captures the color of traffic blocks in front of the robot. If a green block is seen, the robot prepares to turn left. If a red block is seen, it prepares to turn right. These decisions override IR sensor input momentarily when a traffic block is close.
 
 4. **Proximity Detection**: Once a traffic block is confirmed, the proximity sensor measures distance. When a threshold distance is reached (indicating closeness), the vehicle slows and initiates a turn around the block.
 
-5. **Lap Counting**: The IMU continuously monitors yaw. When the robot returns to approximately the same yaw angle as it started with, it assumes one lap has been completed. This repeats until three laps are counted.
-
-6. **Parallel Parking**: Upon completing the third lap, the robot waits until it detects a magenta block. It then begins the parallel parking maneuver using a pre-programmed sequence of steering and motor movements to slide into the designated area.
+5. **Parallel Parking**: Upon completing the third lap, the robot waits until it detects a magenta block. It then begins the parallel parking maneuver using a pre-programmed sequence of steering and motor movements to slide into the designated area.
 
 ---
 
 ## Build & Upload Process
 
 1. **Connect Components**:
-   - IR sensors → analog/digital pins on Gizduino
+   - Color sensor → digital pins on Gizduino
    - Proximity sensor → analog pin
-   - IMU → I2C interface
    - Servo → PWM pin (e.g., D10)
    - DC motors → connected to the Gizduino motor shield (Motor A terminals)
    - Raspberry Pi camera → attached and configured via Pi software, communicates via Serial or GPIO
@@ -92,7 +87,7 @@ The vehicle operates using a rule-based system structured around sensor input an
    - Verify servo and motor movement based on simple condition triggers
 
 4. **Final Calibration**:
-   - Adjust IR thresholds, motor speed values, servo angles, and yaw thresholds for lap detection based on arena conditions
+   - Adjust color sensor thresholds, motor speed values, and servo angles.
 
 ---
 
